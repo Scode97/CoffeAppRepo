@@ -2,14 +2,21 @@ import React, { Component } from 'react';
 import { ImageBackground, StyleSheet, View, ListView } from 'react-native';
 import coffee from '../../images/coffee.jpg';
 import list from './list';
+import { Link } from 'react-router-native'
 import { Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, List, ListItem, } from 'native-base';
-export default class CoffeList extends Component {
+import {observer} from 'mobx-react';
+import store from '../Store';
+
+export default observer(class CoffeList extends Component {
     constructor(props) {
         super(props);
         this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
         this.state = {
           listViewData: list,
         };
+    }
+    setCurrent(data){
+        store.currentCoffeShop = data;
     }
   render() {
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -18,7 +25,8 @@ export default class CoffeList extends Component {
             dataSource={this.ds.cloneWithRows(this.state.listViewData)}
             renderRow={(data,index) =>
                 <ImageBackground  source={data.background} style={{height: 180, width: null, flex: 1}} key={data.name + "-" + index} >
-                    <ListItem style={{ backgroundColor: "transparent", borderTopWidth: 0,borderRightWidth: 0,borderLeftWidth: 0,borderBottomWidth: 0 }}>
+                    <Link to='/detail' component={ListItem} onPress={() => this.setCurrent(data)}
+                     style={{ backgroundColor: "transparent", borderTopWidth: 0,borderRightWidth: 0,borderLeftWidth: 0,borderBottomWidth: 0 }} >
                         <Card style={{ backgroundColor: "transparent", borderTopWidth: 0,borderRightWidth: 0,borderLeftWidth: 0,borderBottomWidth: 0 }}>
                             <CardItem style={{ backgroundColor: "transparent" }}>
                                 <Left>
@@ -31,7 +39,7 @@ export default class CoffeList extends Component {
                             </CardItem>
                         </Card>
                         <View style={styles.divider}></View>
-                    </ListItem>
+                    </Link>
                 </ImageBackground>}
             renderLeftHiddenRow={data =>
                 <Button full onPress={() => alert('HEY!')}>
@@ -42,7 +50,7 @@ export default class CoffeList extends Component {
         />
     );
   }
-}
+});
 
 const styles = StyleSheet.create({
     text: {

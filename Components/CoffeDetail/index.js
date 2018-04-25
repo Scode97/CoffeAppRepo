@@ -3,24 +3,35 @@ import { StyleSheet } from 'react-native';
 import { Thumbnail, Text, Button, Left, Body, Right, List, ListItem, Tab, Tabs } from 'native-base';
 import starbucks from '../../images/starbucks.png';
 import starbucks2 from '../../images/starbucks.jpg';
+import {observer} from 'mobx-react';
+import store from '../Store';
 
-export default class CoffeDetail extends Component {
+export default observer(class CoffeDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
           detail: {
-            name: 'StarBucks',
-            location: 'Salmiya',
-            distance: '5 kilometers',
-            image: starbucks,
-            background: starbucks2,
-            lat: 29.32825632,
-            lng: 47.9258696
           },
           drink: 0,
           option: 0,
 
         };
+    }
+    componentWillMount(){
+        this.setState({
+            detail: store.currentCoffeShop
+        })
+    }
+    handleAdd(){
+        let coffe = {
+            drink: this.state.drink,
+            option: this.state.option,
+            quantity: 1
+        }
+        if (store.currentCartFrom.name === ""){
+        store.cart.push(coffe);
+        store.currentCartFrom = this.state.detail
+        }
     }
   render() {
     return (
@@ -55,13 +66,13 @@ export default class CoffeDetail extends Component {
                 <Tab heading="Small"/>
                 <Tab heading="Large"/>
             </Tabs>
-            <Button full danger>
+            <Button full danger onPress={() => this.handleAdd()}>
                 <Text>Add</Text>
             </Button>
         </List>
     );
   }
-}
+})
 
 const styles = StyleSheet.create({
     text: {

@@ -4,7 +4,7 @@ import { Container, Content, Footer, FooterTab, Button, Icon, Text } from 'nativ
 import CoffeList from '../CoffeList';
 import CoffeDetail from '../CoffeDetail';
 import CoffeCart from '../CoffeCart';
-
+import { Route, Link, Switch } from 'react-router-native'
 import background from '../../images/10.jpg';
 import MyHeader from '../MyHeader';
 
@@ -15,16 +15,20 @@ export default class HomePage extends Component {
           <Container>
             <MyHeader />
             <Content>
-              <CoffeCart />
+              <Switch>
+                <Route exact path='/' component={CoffeList}/>
+                <Route path='/cart' component={CoffeCart}/>
+                <Route path='/detail' component={CoffeDetail}/>
+              </Switch>
             </Content>
             <Footer style={{backgroundColor: "transparent"}}>
               <FooterTab>
-                <Button full>
+                <Link to='/cart' component={Button} full>
                   <Text style={styles.footerbutton}>
                     <Icon name='cart' style={styles.footericon} />
                      Cart
                   </Text>
-                </Button>
+                </Link>
               </FooterTab>
             </Footer>
           </Container>

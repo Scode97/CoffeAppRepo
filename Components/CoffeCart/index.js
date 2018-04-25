@@ -4,34 +4,24 @@ import { Link } from 'react-router-native'
 import { Thumbnail, Text, Left, Body, Right, List, ListItem } from 'native-base';
 import starbucks from '../../images/starbucks.png';
 import starbucks2 from '../../images/starbucks.jpg';
-export default class CoffeDetail extends Component {
+import {observer} from 'mobx-react';
+import store from '../Store';
+
+export default observer(class CoffeDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
             orders: [
-                {
-                    drink: 0,
-                    option: 0,
-                    quantity: 1
-                },
-                {
-                    drink: 1,
-                    option: 1,
-                    quantity: 2
-                }
             ],
-            shop: {
-                name: 'StarBucks',
-                location: 'Salmiya',
-                distance: '5 kilometers',
-                image: starbucks,
-                background: starbucks2,
-                lat: 29.32825632,
-                lng: 47.9258696
-            }
-        };
+            shop: {}
+             };
     }
-
+    componentWillMount(){
+        this.setState({
+            orders: store.cart,
+            shop: store.currentCartFrom
+        })
+    }
     renderItem(item,index){
         return (
             <ListItem key={index}>
@@ -69,7 +59,7 @@ export default class CoffeDetail extends Component {
             </List>
         );
     }
-}
+});
 
 const styles = StyleSheet.create({
     text: {
