@@ -23,7 +23,7 @@ export default observer(class MyHeader extends Component {
         </Body>
         <Right>
             <Link to='/cart' component={Button} transparent>
-                <Text style={styles.text}>{store.cart.length}{" "}
+                <Text style={styles.text}>{store.amount}{" "}
                 <Icon name='beer' style={styles.icon} />
                 </Text>
             </Link>

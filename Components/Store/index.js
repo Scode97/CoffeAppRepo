@@ -9,6 +9,13 @@ class myStore {
                 currentCartFrom: {
                     name: "",
                 },
+                get amount(){
+                    let myamount = 0;
+                    this.cart.map(
+                        (item) => myamount = myamount + item.quantity
+                    )
+                    return myamount
+                }
             }
     )
     }

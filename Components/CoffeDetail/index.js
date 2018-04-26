@@ -22,15 +22,28 @@ export default observer(class CoffeDetail extends Component {
             detail: store.currentCoffeShop
         })
     }
+
+ 
+
     handleAdd(){
         let coffe = {
             drink: this.state.drink,
             option: this.state.option,
             quantity: 1
         }
-        if (store.currentCartFrom.name === ""){
-        store.cart.push(coffe);
-        store.currentCartFrom = this.state.detail
+        if (store.currentCartFrom.name === "" || store.currentCartFrom.name === store.currentCoffeShop.name){
+            let index = store.cart.findIndex(
+                (object) => object.drink === this.state.drink && object.option === this.state.option
+            )
+            store.currentCartFrom = this.state.detail
+            if (index < 0){
+                store.cart.push(coffe);
+            }
+            else {
+                store.cart[index].quantity++
+            }
+        } else {
+            alert('You have a pending order')
         }
     }
   render() {

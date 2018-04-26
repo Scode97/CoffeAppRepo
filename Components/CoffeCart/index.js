@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { Link } from 'react-router-native'
-import { Thumbnail, Text, Left, Body, Right, List, ListItem } from 'native-base';
+import { Thumbnail, Text, Left, Body, Right, List,Button, ListItem } from 'native-base';
 import starbucks from '../../images/starbucks.png';
 import starbucks2 from '../../images/starbucks.jpg';
 import {observer} from 'mobx-react';
@@ -20,6 +20,16 @@ export default observer(class CoffeDetail extends Component {
         this.setState({
             orders: store.cart,
             shop: store.currentCartFrom
+        })
+    }
+    handleRemove(){
+        store.currentCartFrom = {
+            name: "",
+        }
+        store.cart = []
+        this.setState({
+            orders:[],
+            shop: {}
         })
     }
     renderItem(item,index){
@@ -56,6 +66,11 @@ export default observer(class CoffeDetail extends Component {
                 {this.state.orders.map(
                 (item, index) => this.renderItem(item,index)
                 )}
+                <ListItem>
+                    <Link component={Button} to='/' full onPress={() => this.handleRemove()}>
+                        <Text>Remove Cart</Text>
+                    </Link>
+                </ListItem>
             </List>
         );
     }

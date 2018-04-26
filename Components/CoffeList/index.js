@@ -6,6 +6,7 @@ import { Link } from 'react-router-native'
 import { Card, CardItem, Thumbnail, Text, Button, Icon, Left, Body, List, ListItem, } from 'native-base';
 import {observer} from 'mobx-react';
 import store from '../Store';
+import openMap from 'react-native-open-maps';
 
 export default observer(class CoffeList extends Component {
     constructor(props) {
@@ -17,6 +18,9 @@ export default observer(class CoffeList extends Component {
     }
     setCurrent(data){
         store.currentCoffeShop = data;
+    }
+    openMyMap(data){
+        openMap({ latitude: data.lat, longitude: data.lng });
     }
   render() {
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -42,7 +46,7 @@ export default observer(class CoffeList extends Component {
                     </Link>
                 </ImageBackground>}
             renderLeftHiddenRow={data =>
-                <Button full onPress={() => alert('HEY!')}>
+                <Button full onPress={() => this.openMyMap(data)}>
                 <Icon active name="navigate" />
                 </Button>}
             disableLeftSwipe
