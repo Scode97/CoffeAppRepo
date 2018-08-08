@@ -1,27 +1,29 @@
-import React from 'react';
-import Expo, {AppLoading} from 'expo';
-import HomePage from './HomePage';
+import React from "react";
+import Expo, { AppLoading } from "expo";
 
-export default class MyApp extends React.Component {
-    state = { 
-        fontsAreLoaded: false,
-     };
+// Component
+import HomePage from "./HomePage";
 
-    async componentWillMount() {
-        await Expo.Font.loadAsync({
-            'Roboto': require('native-base/Fonts/Roboto.ttf'),
-            'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
-            });
-        this.setState({fontsAreLoaded: true});
+class MyApp extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      fontsAreLoaded: false
+    };
+  }
+
+  componentWillMount() {
+    Expo.Font.loadAsync({
+      Roboto: require("native-base/Fonts/Roboto.ttf"),
+      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
+    }).then(() => this.setState({ fontsAreLoaded: true }));
+  }
+  render() {
+    if (!this.state.fontsAreLoaded) {
+      return <AppLoading />;
     }
-    render() {
-        if (!this.state.fontsAreLoaded) {
-            return <AppLoading/>;
-        }
-        return (
-                <HomePage/>
-        );
-    }
+    return <HomePage />;
+  }
 }
 
-
+export default MyApp;
