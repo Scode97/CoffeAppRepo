@@ -12,17 +12,42 @@ import {
   Text
 } from "native-base";
 
+// Routing
+import { Switch, Route, withRouter } from "react-router-native";
+
+import { Link } from "react-router-native";
+import ListStore from "../../Stores/ListStore";
+
 // Style
 import styles from "./styles";
+import CoffeCart from "../CoffeCart";
+import CoffeDetail from "../CoffeDetail";
 
 class MyHeader extends Component {
+  back = () => {
+    this.props.history.goBack();
+  };
+
+  // componentDidMount() {
+  //   console.log(this.props);
+  // }
   render() {
+    // console.log(ListStore.orders.length);
     return (
       <Header style={{ backgroundColor: "transparent" }}>
         <Left>
-          <Button transparent>
+          {/* <Link component={Button} to="/">
             <Icon style={styles.backicon} name="arrow-back" />
-          </Button>
+          </Link> */}
+          <Switch>
+            <Route
+              render={() => (
+                <Button transparent onPress={this.back}>
+                  <Icon style={styles.backicon} name="arrow-back" />
+                </Button>
+              )}
+            />
+          </Switch>
         </Left>
 
         <Body>
@@ -31,15 +56,24 @@ class MyHeader extends Component {
           </Title>
         </Body>
         <Right>
-          <Button transparent>
+          {/* <Button transparent>
             <Text style={styles.text}>
               3 <Icon name="beer" style={styles.icon} />
             </Text>
-          </Button>
+          </Button> */}
+
+          <Link to="/CoffeCart" component={Button} transparent>
+            <Text style={styles.text}>
+              {ListStore.getTotal}
+
+              {/* {ListStore.orders.forEach(order=> order.quantity)} */}
+              <Icon name="beer" style={styles.icon} />
+            </Text>
+          </Link>
         </Right>
       </Header>
     );
   }
 }
 
-export default MyHeader;
+export default withRouter(MyHeader);

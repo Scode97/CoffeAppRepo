@@ -17,32 +17,34 @@ import starbucks2 from "../../images/starbucks.jpg";
 
 // Style
 import styles from "./styles";
+import CoffeDetail from "../CoffeDetail";
+import ListStore from "../../Stores/ListStore";
 
 class CoffeCart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      orders: [
-        {
-          drink: 0,
-          option: 0,
-          quantity: 1
-        },
-        {
-          drink: 1,
-          option: 1,
-          quantity: 2
-        }
-      ],
-      shop: {
-        name: "StarBucks",
-        location: "Salmiya",
-        distance: "5 kilometers",
-        image: starbucks,
-        background: starbucks2,
-        lat: 29.32825632,
-        lng: 47.9258696
-      }
+      // orders: [
+      //   {
+      //     drink: 0,
+      //     option: 0,
+      //     quantity: 1
+      //   },
+      //   {
+      //     drink: 1,
+      //     option: 1,
+      //     quantity: 2
+      //   }
+      // ],
+      // shop: {
+      // name: "StarBucks",
+      // location: "Salmiya",
+      // distance: "5 kilometers",
+      // image: starbucks,
+      // background: starbucks2,
+      // lat: 29.32825632,
+      // lng: 47.9258696
+      // }
     };
   }
 
@@ -62,22 +64,25 @@ class CoffeCart extends Component {
       </ListItem>
     );
   }
+
   render() {
     return (
       <List>
         <ListItem style={styles.top}>
           <Left>
             <Text style={styles.text}>
-              {this.state.shop.name + "\n"}
-              <Text note>{this.state.shop.location}</Text>
+              {/* {ListStore.list[ListStore.currentShop].name + "\n"} */}
+              {/* <Text note>{ListStore.list[ListStore.currentShop]}</Text> */}
+              {ListStore.Current.name + "\n"}
+              <Text note>{ListStore.Current.location}</Text>
             </Text>
           </Left>
           <Body />
           <Right>
-            <Thumbnail bordered source={this.state.shop.image} />
+            <Thumbnail bordered source={ListStore.Current.image} />
           </Right>
         </ListItem>
-        {this.state.orders.map((item, index) => this.renderItem(item, index))}
+        {ListStore.orders.map((item, index) => this.renderItem(item, index))}
       </List>
     );
   }

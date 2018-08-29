@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { ImageBackground, View } from "react-native";
+import { NativeRouter, Route, Switch } from "react-router-native";
 
 // NativeBase Components
 import {
@@ -23,8 +24,14 @@ import background from "../../images/b1.png";
 
 // Style
 import styles from "./styles";
+//routing
+
+import { Link } from "react-router-native";
 
 class HomePage extends Component {
+  componentDidMount() {
+    console.log("ccc");
+  }
   render() {
     return (
       <ImageBackground
@@ -34,16 +41,28 @@ class HomePage extends Component {
         <View style={styles.overlay} />
         <Container>
           <MyHeader />
+
           <Content>
-            <CoffeCart />
+            <Switch>
+              <Route path="/CoffeCart" component={CoffeCart} />
+              <Route path="/CoffeDetail/:index" component={CoffeDetail} />
+              <Route exact path="/" component={CoffeList} />
+            </Switch>
           </Content>
+
           <Footer style={{ backgroundColor: "transparent" }}>
             <FooterTab>
               <Button full>
-                <Text style={styles.footerbutton}>
+                {/* <Text style={styles.footerbutton}>
                   <Icon name="cart" style={styles.footericon} />
                   Cart
-                </Text>
+                </Text> */}
+                <Link component={Button} to="/coffeCart" full>
+                  <Text style={styles.footerbutton}>
+                    <Icon name="cart" style={styles.footericon} />
+                    Cart
+                  </Text>
+                </Link>
               </Button>
             </FooterTab>
           </Footer>
